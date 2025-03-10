@@ -3,26 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte de Visite NFC</title>
+    <title>Carte NFC - Profil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .profile-container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .banner {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-top: -50px;
+            background-color: white;
+            object-fit: cover;
+        }
+        .info {
+            padding: 15px;
+        }
+        .info h2, .info p {
+            margin: 5px 0;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .social-links a {
+            text-decoration: none;
+            color: white;
+            background: #0073e6;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .contact-button {
+            display: block;
+            width: 80%;
+            margin: 15px auto;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Profil NFC</h1>
-    <p>Nom : <span id="name"></span></p>
-    <p>Rôle : <span id="role"></span></p>
-    <p>Email : <span id="email"></span></p>
-    <p>Téléphone : <span id="phone"></span></p>
-    <h3>Réseaux Sociaux :</h3>
-    <p><a id="facebook" href="#" target="_blank">Facebook</a></p>
-    <p><a id="instagram" href="#" target="_blank">Instagram</a></p>
-    
+    <div class="profile-container">
+        <img id="banner" class="banner" src="default-banner.jpg" alt="Bannière">
+        <img id="profileImg" class="profile-image" src="default-avatar.png" alt="Photo de profil">
+        
+        <div class="info">
+            <h2 id="name">Nom Inconnu</h2>
+            <p id="role">Rôle : Non défini</p>
+            <p id="label">Label / Booking : Aucun</p>
+            <p id="music">Style : Indéfini</p>
+            <p id="email">Email : Non disponible</p>
+            <p id="phone">Téléphone : Non disponible</p>
+        </div>
+        
+        <div class="social-links" id="socialLinks"></div>
+        
+        <button class="contact-button" id="addContact">Ajouter au contact</button>
+    </div>
+
     <script>
         let params = new URLSearchParams(window.location.search);
-        document.getElementById("name").textContent = params.get("name") || "Non spécifié";
-        document.getElementById("role").textContent = params.get("role") || "Non spécifié";
-        document.getElementById("email").textContent = params.get("email") || "Non spécifié";
-        document.getElementById("phone").textContent = params.get("phone") || "Non spécifié";
-        document.getElementById("facebook").href = params.get("facebook") || "#";
-        document.getElementById("instagram").href = params.get("instagram") || "#";
+        document.getElementById("name").textContent = params.get("name") || "Nom Inconnu";
+        document.getElementById("role").textContent = "Rôle : " + (params.get("role") || "Non défini");
+        document.getElementById("label").textContent = "Label / Booking : " + (params.get("label") || "Aucun");
+        document.getElementById("music").textContent = "Style : " + (params.get("music") || "Indéfini");
+        document.getElementById("email").textContent = "Email : " + (params.get("email") || "Non disponible");
+        document.getElementById("phone").textContent = "Téléphone : " + (params.get("phone") || "Non disponible");
+
+        document.getElementById("profileImg").src = params.get("profileImage") || "default-avatar.png";
+        document.getElementById("banner").src = params.get("bannerImage") || "default-banner.jpg";
+
+        let socialNetworks = ["facebook", "instagram", "youtube", "tiktok", "deezer"];
+        let socialLinksContainer = document.getElementById("socialLinks");
+
+        socialNetworks.forEach(network => {
+            let link = params.get(network);
+            if (link) {
+                let a = document.createElement("a");
+                a.href = link;
+                a.textContent = network.charAt(0).toUpperCase() + network.slice(1);
+                a.target = "_blank";
+                socialLinksContainer.appendChild(a);
+            }
+        });
+
+        document.getElementById("addContact").addEventListener("click", function() {
+            let vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${params.get("name") || "Nom Inconnu"}\nTEL:${params.get("phone") || ""}\nEMAIL:${params.get("email") || ""}\nEND:VCARD`;
+            let blob = new Blob([vCardData], { type: "text/vcard" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "contact.vcf";
+            link.click();
+        });
     </script>
 </body>
 </html>
