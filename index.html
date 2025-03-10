@@ -1,153 +1,100 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte NFC - Profil</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .profile-container {
-            width: 90%;
-            max-width: 400px;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .banner {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background-color: #ddd;
-        }
-        .profile-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid white;
-            margin-top: -60px;
-            object-fit: cover;
-            background-color: white;
-        }
-        .info {
-            padding: 20px;
-        }
-        .info h2 {
-            font-size: 22px;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .info p {
-            font-size: 14px;
-            color: #666;
-            margin: 3px 0;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 10px;
-            flex-wrap: wrap;
-        }
-        .social-links a {
-            text-decoration: none;
-            color: white;
-            background: #0073e6;
-            padding: 10px;
-            border-radius: 50%;
-            font-size: 14px;
-            font-weight: bold;
-            transition: 0.3s;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .social-links a:hover {
-            background: #005bb5;
-        }
-        .contact-button {
-            display: block;
-            width: 80%;
-            margin: 15px auto;
-            padding: 12px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .contact-button:hover {
-            background: #1e7e34;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Card Example</title>
+  <style>
+    body {
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    .card {
+      width: 300px;
+      height: 400px;
+      perspective: 1000px;
+    }
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #fff;
+    }
+    .card-front {
+      background: #fff;
+    }
+    .card-back {
+      background: #007BFF;
+      color: #fff;
+      transform: rotateY(180deg);
+    }
+    .card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    .card h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .card p {
+      margin: 5px 0;
+      font-size: 1em;
+    }
+    .card a {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #fff;
+      color: #007BFF;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="profile-container">
-        <img id="banner" class="banner" src="default-banner.jpg" alt="Bannière">
-        <img id="profileImg" class="profile-image" src="default-avatar.png" alt="Photo de profil">
-        
-        <div class="info">
-            <h2 id="name">Nom Inconnu</h2>
-            <p id="role">Rôle : Non défini</p>
-            <p id="label">Label / Booking : Aucun</p>
-            <p id="music">Style : Indéfini</p>
-            <p id="email">Email : Non disponible</p>
-            <p id="phone">Téléphone : Non disponible</p>
-        </div>
-        
-        <div class="social-links" id="socialLinks"></div>
-        
-        <button class="contact-button" id="addContact">Ajouter au contact</button>
+  <div class="card">
+    <div class="card-inner">
+      <!-- Front Side -->
+      <div class="card-face card-front">
+        <img src="https://via.placeholder.com/80" alt="Profile Picture" />
+        <h2>John Doe</h2>
+        <p>Web Developer</p>
+        <a href="#">View Profile</a>
+      </div>
+      <!-- Back Side -->
+      <div class="card-face card-back">
+        <h2>Contact Me</h2>
+        <p>Email: john.doe@example.com</p>
+        <p>Phone: 123-456-7890</p>
+      </div>
     </div>
-
-    <script>
-        let params = new URLSearchParams(window.location.search);
-        document.getElementById("name").textContent = params.get("name") || "Nom Inconnu";
-        document.getElementById("role").textContent = "Rôle : " + (params.get("role") || "Non défini");
-        document.getElementById("label").textContent = "Label / Booking : " + (params.get("label") || "Aucun");
-        document.getElementById("music").textContent = "Style : " + (params.get("music") || "Indéfini");
-        document.getElementById("email").textContent = "Email : " + (params.get("email") || "Non disponible");
-        document.getElementById("phone").textContent = "Téléphone : " + (params.get("phone") || "Non disponible");
-
-        document.getElementById("profileImg").src = params.get("profileImage") || "default-avatar.png";
-        document.getElementById("banner").src = params.get("bannerImage") || "default-banner.jpg";
-
-        let socialNetworks = ["facebook", "instagram", "youtube", "tiktok", "deezer"];
-        let socialLinksContainer = document.getElementById("socialLinks");
-
-        socialNetworks.forEach(network => {
-            let link = params.get(network);
-            if (link) {
-                let a = document.createElement("a");
-                a.href = link;
-                a.target = "_blank";
-                a.innerHTML = `<img src="https://www.svgrepo.com/show/303139/${network}.svg" width="20" height="20">`;
-                socialLinksContainer.appendChild(a);
-            }
-        });
-
-        document.getElementById("addContact").addEventListener("click", function() {
-            let vCardData = `BEGIN:VCARD\nVERSION:3.0\nFN:${params.get("name") || "Nom Inconnu"}\nTEL:${params.get("phone") || ""}\nEMAIL:${params.get("email") || ""}\nEND:VCARD`;
-            let blob = new Blob([vCardData], { type: "text/vcard" });
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "contact.vcf";
-            link.click();
-        });
-    </script>
+  </div>
 </body>
 </html>
+
