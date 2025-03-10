@@ -6,14 +6,13 @@
     <title>Carte NFC - Profil</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
+            margin: 0;
         }
         .profile-container {
             width: 90%;
@@ -55,7 +54,7 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             padding: 10px;
             flex-wrap: wrap;
         }
@@ -63,11 +62,16 @@
             text-decoration: none;
             color: white;
             background: #0073e6;
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 10px;
+            border-radius: 50%;
             font-size: 14px;
             font-weight: bold;
             transition: 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .social-links a:hover {
             background: #005bb5;
@@ -130,8 +134,8 @@
             if (link) {
                 let a = document.createElement("a");
                 a.href = link;
-                a.textContent = network.charAt(0).toUpperCase() + network.slice(1);
                 a.target = "_blank";
+                a.innerHTML = `<img src="https://www.svgrepo.com/show/303139/${network}.svg" width="20" height="20">`;
                 socialLinksContainer.appendChild(a);
             }
         });
@@ -147,4 +151,3 @@
     </script>
 </body>
 </html>
-
