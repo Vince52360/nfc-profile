@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte de Visite NFC</title>
+</head>
+<body>
+    <h1>Profil NFC</h1>
+    <p>Nom : <span id="name"></span></p>
+    <p>Rôle : <span id="role"></span></p>
+    <p>Email : <span id="email"></span></p>
+    <p>Téléphone : <span id="phone"></span></p>
+    <h3>Réseaux Sociaux :</h3>
+    <p><a id="facebook" href="#" target="_blank">Facebook</a></p>
+    <p><a id="instagram" href="#" target="_blank">Instagram</a></p>
+    
+    <script>
+        let params = new URLSearchParams(window.location.search);
+        document.getElementById("name").textContent = params.get("name") || "Non spécifié";
+        document.getElementById("role").textContent = params.get("role") || "Non spécifié";
+        document.getElementById("email").textContent = params.get("email") || "Non spécifié";
+        document.getElementById("phone").textContent = params.get("phone") || "Non spécifié";
+        document.getElementById("facebook").href = params.get("facebook") || "#";
+        document.getElementById("instagram").href = params.get("instagram") || "#";
+    </script>
+</body>
+</html>
