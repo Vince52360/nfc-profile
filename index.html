@@ -1,100 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Card Example</title>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Favicon & Touch Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="https://indiymusic.com/assets/favicon57.jpg">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://indiymusic.com/assets/favicon60.jpg">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://indiymusic.com/assets/favicon72.jpg">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://indiymusic.com/assets/favicon76.jpg">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://indiymusic.com/assets/favicon114.jpg">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://indiymusic.com/assets/favicon120.jpg">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://indiymusic.com/assets/favicon144.jpg">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://indiymusic.com/assets/favicon152.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://indiymusic.com/assets/favicon180.jpg">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://indiymusic.com/assets/favicon192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://indiymusic.com/assets/favicon32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://indiymusic.com/assets/favicon96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://indiymusic.com/assets/favicon16.png">
+  <link rel="manifest" href="/manifest.webmanifest?site=indiymusic">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="canonical" href="https://indiymusic.com">
+  
+  <!-- Meta Tags for Social Sharing -->
+  <meta name="description" content="IndiyMusic, votre carte de visite digitale pour la musique indépendante">
+  <meta property="og:url" content="https://indiymusic.com">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IndiyMusic">
+  <meta property="og:description" content="IndiyMusic, votre hub digital pour la musique indépendante">
+  <meta property="og:image" content="https://indiymusic.com/assets/profile.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="indiymusic.com">
+  <meta property="twitter:url" content="https://indiymusic.com">
+  <meta name="twitter:title" content="IndiyMusic">
+  <meta name="twitter:description" content="IndiyMusic, votre hub digital pour la musique indépendante">
+  <meta name="twitter:image" content="https://indiymusic.com/assets/profile.jpg">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  
+  <!-- Custom Font & CSS Variables -->
   <style>
-    body {
-      background: #f2f2f2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
+    @font-face {
+      font-family: 'custom-font';
+      src: url(https://indiymusic.com/assets/fonts/custom-font.ttf);
     }
-    .card {
-      width: 300px;
-      height: 400px;
-      perspective: 1000px;
-    }
-    .card-inner {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-    .card:hover .card-inner {
-      transform: rotateY(180deg);
-    }
-    .card-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 10px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: #fff;
-    }
-    .card-front {
-      background: #fff;
-    }
-    .card-back {
-      background: #007BFF;
-      color: #fff;
-      transform: rotateY(180deg);
-    }
-    .card img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-    }
-    .card h2 {
-      margin: 0;
-      font-size: 1.5em;
-    }
-    .card p {
-      margin: 5px 0;
-      font-size: 1em;
-    }
-    .card a {
-      margin-top: 15px;
-      padding: 10px 15px;
-      background: #fff;
-      color: #007BFF;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
+    :root {
+      --text-color-banner: #ffffff;
+      --text-color-presentation: #ffffff;
+      --text-color-link: #000000;
+      --bg-color-link: #ffffff;
+      --bg-color-container: #000000;
+      --bg-img-banner: url('https://indiymusic.com/assets/banner.jpg');
+      --main-font: "custom-font";
     }
   </style>
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/build/styles.css">
+  
+  <title>IndiyMusic Card</title>
 </head>
 <body>
-  <div class="card">
-    <div class="card-inner">
-      <!-- Front Side -->
-      <div class="card-face card-front">
-        <img src="https://via.placeholder.com/80" alt="Profile Picture" />
-        <h2>John Doe</h2>
-        <p>Web Developer</p>
-        <a href="#">View Profile</a>
+  <div id="flash-container"></div>
+
+  <!-- Hidden inputs for dynamic assets -->
+  <input type="hidden" id="bgImgBanner" value="url('https://indiymusic.com/assets/banner.jpg')">
+  <input type="hidden" id="font" value="url('https://indiymusic.com/assets/fonts/custom-font.ttf')">
+
+  <section class="body-mcard custom zoom">
+    <div class="background"></div>
+    <div class="container container-mcard">
+      <!-- Navigation -->
+      <nav id="nav">
+        <ul class="menu">
+          <li class="sub">
+            <a href="#">
+              <span class="fas fa-bars"></span>
+            </a>
+            <ul class="submenu">
+              <li class="navButtonResearch d-none">
+                <a href="#">Annuaire partagé</a>
+              </li>
+              <li class="navButtonReminder">
+                <a href="#">Activer les rappels</a>
+              </li>
+            </ul>
+          </li>
+          <li class="navButtonPanel">
+            <a href="#">
+              <span class="fas fa-qrcode"></span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Reminder Form -->
+      <div class="hidden" id="reminder">
+        <button class="btn navButtonReminder">
+          <span class="fas fa-times"></span>
+        </button>
+        <form name="card_reminder" method="post">
+          <div class="mb-3">
+            <label for="card_reminder_email" class="form-label required">Email</label>
+            <input type="email" id="card_reminder_email" name="card_reminder[email]" required class="form-control">
+          </div>
+          <input type="submit" value="Activer le rappel" class="btn mt-3">
+          <input type="hidden" id="card_reminder__token" name="card_reminder[_token]" value="PLACEHOLDER_TOKEN">
+        </form>
       </div>
-      <!-- Back Side -->
-      <div class="card-face card-back">
-        <h2>Contact Me</h2>
-        <p>Email: john.doe@example.com</p>
-        <p>Phone: 123-456-7890</p>
+
+      <!-- Research Form -->
+      <div class="hidden d-none" id="research">
+        <button class="btn navButtonResearch">
+          <span class="fas fa-times"></span>
+        </button>
+        <form name="research_card" method="post">
+          <div class="mb-3">
+            <label class="form-label required" for="research_card_card-ts-control" id="research_card_card-ts-label">Autres cartes</label>
+            <select id="research_card_card" name="research_card[card]" class="form-select">
+              <option value=""></option>
+            </select>
+          </div>
+          <input type="submit" value="Rechercher la carte" class="btn mt-3">
+          <input type="hidden" id="research_card__token" name="research_card[_token]" value="PLACEHOLDER_TOKEN">
+        </form>
+      </div>
+
+      <!-- QR Code Panel -->
+      <div class="hidden" id="panel">
+        <button class="btn navButtonPanel">
+          <span class="fas fa-times"></span>
+        </button>
+        <figure>
+          <img src="https://indiymusic.com/assets/qrcode.png" alt="QR Code">
+        </figure>
+        <article>
+          <p>Montrez ce QR CODE pour<br>partager votre IndiyMusic Card</p>
+        </article>
+      </div>
+
+      <!-- Header Section -->
+      <div class="head-mcard classic" id="head-mcard">
+        <div class="img-profil" id="img-profil">
+          <img src="https://indiymusic.com/assets/profile.jpg" alt="Profil">
+        </div>
+        <div class="entreprise">
+          <h3 class="name" id="fullname">Artist Name</h3>
+          <p class="occupation" id="occupation">Music Producer / Indie Artist</p>
+          <h2 class="company" id="company">IndiyMusic</h2>
+          <p class="description-company" id="description-company">Independent Music Label</p>
+        </div>
+      </div>
+
+      <!-- Contact Links -->
+      <div class="content-mcard">
+        <div class="link-list classic">
+          <div class="item" id="email">
+            <a href="mailto:contact@indiymusic.com" target="_blank" title="">
+              <i class="fa fa-envelope"></i>
+            </a>
+            <p>Email</p>
+          </div>
+          <div class="item" id="phone">
+            <a href="tel:+1234567890" target="_blank" title="">
+              <i class="fa fa-phone-alt"></i>
+            </a>
+            <p>Téléphone</p>
+          </div>
+          <div class="item" id="website">
+            <a href="https://indiymusic.com" target="_blank" title="">
+              <i class="fa fa-laptop"></i>
+            </a>
+            <p>Site web</p>
+          </div>
+          <div class="item other">
+            <a href="/link/teaser" target="_blank" title=""></a>
+            <p>Video Teaser</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media Carousel -->
+      <div class="col-12 carrouselSocial mt-4 mb-5 px-5">
+        <div class="splide" id="splide01">
+          <div class="splide__track" id="splide01-track">
+            <ul class="splide__list" id="splide01-list">
+              <li class="splide__slide splide-img" id="splide01-slide01">
+                <a target="_blank" href="https://www.youtube.com/channel/YourChannel">
+                  <img src="https://indiymusic.com/assets/youtube.png" class="img-fluid" alt="IndiyMusic sur Youtube">
+                </a>
+              </li>
+              <li class="splide__slide splide-img" id="splide01-slide02">
+                <a target="_blank" href="https://open.spotify.com/artist/YourArtistID">
+                  <img src="https://indiymusic.com/assets/spotify.png" class="img-fluid" alt="IndiyMusic sur Spotify">
+                </a>
+              </li>
+              <li class="splide__slide splide-img" id="splide01-slide03">
+                <a target="_blank" href="https://www.facebook.com/YourPage">
+                  <img src="https://indiymusic.com/assets/facebook.jpg" class="img-fluid" alt="IndiyMusic sur Facebook">
+                </a>
+              </li>
+              <li class="splide__slide splide-img" id="splide01-slide04">
+                <a target="_blank" href="https://www.instagram.com/YourProfile">
+                  <img src="https://indiymusic.com/assets/instagram.png" class="img-fluid" alt="IndiyMusic sur Instagram">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer with Contact Options -->
+      <div class="footer-mcard">
+        <div class="item">
+          <a style="color: #000000 !important;" href="/card/vcf">
+            <i class="fa fa-plus"></i>
+            Ajouter aux contacts
+          </a>
+        </div>
+        <a id="btnShare">
+          <i class="fa fa-share-alt"></i>
+        </a>
+        <div class="item">
+          <a class="gap-1" style="color: #000000 !important;" id="contact-informations">
+            Laisser mes coordonnées
+            <i class="fa fa-address-book"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Information Modal -->
+  <div class="modal connexion fade" id="contactInformationModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Laisser mes coordonnées pour<br>IndiyMusic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form name="contact_information" method="post">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label" for="contact_information_firstname">Prénom / Nom</label>
+                  <input type="text" id="contact_information_firstname" name="contact_information[firstname]" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label class="form-label" for="contact_information_companyName">Entreprise</label>
+                  <input type="text" id="contact_information_companyName" name="contact_information[companyName]" class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="contact_information_email">Email</label>
+                <input type="email" id="contact_information_email" name="contact_information[email]" class="form-control">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="contact_information_phone">Téléphone</label>
+                <input type="text" id="contact_information_phone" name="contact_information[phone]" class="form-control">
+              </div>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="form-label" for="contact_information_message">Message</label>
+                  <textarea id="contact_information_message" name="contact_information[message]" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-dark w-100">Envoyer</button>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" id="contact_information_condition" name="contact_information[condition]" required class="form-check-input" value="1">
+                <label class="d-inline form-check-label" for="contact_information_condition">
+                  En continuant, vous acceptez les conditions d'utilisation et la politique de confidentialité d'IndiyMusic
+                </label>
+              </div>
+            </div>
+            <input type="hidden" id="contact_information__token" name="contact_information[_token]" value="PLACEHOLDER_TOKEN">
+          </form>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Scripts -->
+  <script src="/build/runtime.js" defer></script>
+  <script src="/build/main.js" defer></script>
 </body>
 </html>
-
